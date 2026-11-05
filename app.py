@@ -53,23 +53,39 @@ def preprocess(bgr):
     x = (rgb.astype(np.float32) / 255.0 - MEAN) / STD
     return torch.from_numpy(x.transpose(2, 0, 1)).unsqueeze(0)
 
-
-def predict_with_gradcam(model, x):
+def simple_cam(model, x):
+    # Hook the last conv layer
     acts = []
-    hook = model.model.layer4.register_forward_hook(lambda m, i, o: acts.append(o))
-    # backbone is frozen, so input must require grad for the graph to exist
-    x.requires_grad_(True)
-    logits = model(x)
+    hook = model.model.layer4.register_forward_hook(
+        lambda m, i, o: acts.append(o)
+    )
+    
+    with torch.no_grad():
+        logits = model(x)
+    
     hook.remove()
-
-    probs = F.softmax(logits, dim=1)[0].detach().numpy()
-    idx = int(probs.argmax())
-
-    grads = torch.autograd.grad(logits[0, idx], acts[0])[0]
-    weights = grads.mean(dim=(2, 3), keepdim=True)
-    cam = F.relu((weights * acts[0]).sum(dim=1))[0].detach().numpy()
+    
+    # Average across channels → heatmap
+    cam = acts[0][0].mean(dim=0).cpu().numpy()
     cam = (cam - cam.min()) / (cam.max() - cam.min() + 1e-8)
-    return probs, idx, cam
+    return cam
+
+# def predict_with_gradcam(model, x):
+#     acts = []
+#     hook = model.model.layer4.register_forward_hook(lambda m, i, o: acts.append(o))
+#     # backbone is frozen, so input must require grad for the graph to exist
+#     x.requires_grad_(True)
+#     logits = model(x)
+#     hook.remove()
+
+#     probs = F.softmax(logits, dim=1)[0].detach().numpy()
+#     idx = int(probs.argmax())
+
+#     grads = torch.autograd.grad(logits[0, idx], acts[0])[0]
+#     weights = grads.mean(dim=(2, 3), keepdim=True)
+#     cam = F.relu((weights * acts[0]).sum(dim=1))[0].detach().numpy()
+#     cam = (cam - cam.min()) / (cam.max() - cam.min() + 1e-8)
+#     return probs, idx, cam
 
 
 @app.route("/")
@@ -91,7 +107,7 @@ def predict(name):
     b64 = request.json["image"].split(",")[1]
     frame = cv2.imdecode(np.frombuffer(base64.b64decode(b64), np.uint8), cv2.IMREAD_COLOR)
 
-    probs, idx, cam = predict_with_gradcam(get_model(name), preprocess(frame))
+    probs, idx, cam = simple_cam(get_model(name), preprocess(frame))
 
     heat = cv2.resize(cam, (frame.shape[1], frame.shape[0]))
     heat = cv2.applyColorMap(np.uint8(255 * heat), cv2.COLORMAP_JET)

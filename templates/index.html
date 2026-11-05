@@ -437,8 +437,8 @@ async function loop() {
 
     if (video.videoWidth) {
 
-        canvas.width = 320;
-        canvas.height = 320 * video.videoHeight / video.videoWidth;
+        canvas.width = 224;
+        canvas.height = 224;
 
         canvas.getContext("2d").drawImage(
             video, 0, 0, canvas.width, canvas.height
@@ -452,7 +452,7 @@ async function loop() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    image: canvas.toDataURL("image/jpeg", 0.8)
+                    image: canvas.toDataURL("image/jpeg", 0.6)
                 })
             });
 
@@ -484,7 +484,7 @@ async function loop() {
     }
 
     // Wait for the previous request before capturing another frame.
-    setTimeout(loop, 700);
+    setTimeout(loop, 100);
 }
 </script>
 
