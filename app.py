@@ -54,22 +54,27 @@ def preprocess(bgr):
     return torch.from_numpy(x.transpose(2, 0, 1)).unsqueeze(0)
 
 def simple_cam(model, x):
-    # Hook the last conv layer
     acts = []
-    hook = model.model.layer4.register_forward_hook(
-        lambda m, i, o: acts.append(o)
-    )
-    
-    with torch.no_grad():
-        logits = model(x)
-    
-    hook.remove()
-    
-    # Average across channels → heatmap
-    cam = acts[0][0].mean(dim=0).cpu().numpy()
-    cam = (cam - cam.min()) / (cam.max() - cam.min() + 1e-8)
-    return cam
 
+    def hook_fn(module, input, output):
+        acts.append(output.detach())
+
+    handle = model.model.layer4.register_forward_hook(hook_fn)
+
+    try:
+        with torch.no_grad():
+            logits = model(x)
+
+        probs = F.softmax(logits, dim=1)[0].cpu().numpy()
+        idx = int(probs.argmax())
+
+        cam = acts[0][0].mean(dim=0).cpu().numpy()
+        cam = (cam - cam.min()) / (cam.max() - cam.min() + 1e-8)
+
+        return probs, idx, cam
+
+    finally:
+        handle.remove()
 # def predict_with_gradcam(model, x):
 #     acts = []
 #     hook = model.model.layer4.register_forward_hook(lambda m, i, o: acts.append(o))
