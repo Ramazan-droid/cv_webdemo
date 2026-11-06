@@ -14,7 +14,7 @@ CLASSES = ["fist", "peace", "stop"]
 
 MODEL_PATHS = {
     "baseline": "models/trslearningmodel.pth",
-    "sota": "models/a2_model_weights.pth",
+    "sota": "models/ArtAug_model_weights.pth",
 }
 # -----------------------------------
 
