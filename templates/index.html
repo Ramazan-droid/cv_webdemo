@@ -20,7 +20,7 @@
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1050px;
       margin: auto;
       padding: 30px 20px;
     }
@@ -33,14 +33,14 @@
     }
 
     .brand {
-      font-size: 19px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      font-size: 20px;
+      font-weight: 750;
+      letter-spacing: 1px;
     }
 
     nav a {
-      text-decoration: none;
       color: #9caac5;
+      text-decoration: none;
       padding: 9px 15px;
       border-radius: 9px;
       margin-left: 5px;
@@ -50,11 +50,6 @@
     nav a:hover {
       background: #202b45;
       color: white;
-    }
-
-    .active {
-      background: #263c68;
-      color: #fff;
     }
 
     .header {
@@ -72,7 +67,7 @@
       font-size: 14px;
     }
 
-    .main-grid {
+    .layout {
       display: grid;
       grid-template-columns: 1.2fr 0.8fr;
       gap: 20px;
@@ -82,99 +77,79 @@
       background: #151d31;
       border: 1px solid #27334c;
       border-radius: 17px;
-      padding: 20px;
+      padding: 22px;
       min-width: 0;
     }
 
     .card-title {
       font-size: 16px;
       font-weight: 650;
-      margin-bottom: 16px;
+      margin-bottom: 17px;
     }
 
-    .media-box {
+    .camera-box {
       background: #080d19;
       border: 1px solid #29354c;
       border-radius: 12px;
       overflow: hidden;
-      min-height: 260px;
+      min-height: 280px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    video, .preview-img {
+    video {
       display: block;
       width: 100%;
-      max-height: 420px;
+      max-height: 440px;
       object-fit: contain;
     }
 
-    .placeholder {
+    .camera-placeholder {
       color: #64738e;
       text-align: center;
       padding: 30px;
       font-size: 14px;
     }
 
-    .controls {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 17px;
-    }
-
-    button, .upload-label {
+    .capture-btn {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px;
       border: none;
       border-radius: 10px;
-      padding: 12px 17px;
-      font-size: 14px;
-      font-weight: 600;
+      background: #527cf5;
+      color: white;
+      font-size: 15px;
+      font-weight: 650;
       cursor: pointer;
       transition: 0.2s;
     }
 
-    button:hover, .upload-label:hover {
+    .capture-btn:hover {
+      background: #638bff;
       transform: translateY(-1px);
-      filter: brightness(1.12);
     }
 
-    .primary {
-      background: #527cf5;
-      color: white;
-    }
-
-    .secondary {
-      background: #263550;
-      color: #dce6ff;
-    }
-
-    .upload-label {
-      background: #263550;
-      color: #dce6ff;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    input[type="file"] {
-      display: none;
+    .capture-btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+      transform: none;
     }
 
     .status {
       color: #8e9bb5;
       font-size: 13px;
       margin-top: 13px;
-    }
-
-    .result-card {
-      margin-top: 20px;
+      text-align: center;
     }
 
     .prediction {
       background: #0d172a;
       border: 1px solid #2c4168;
       border-radius: 12px;
-      padding: 20px;
+      padding: 22px;
+      margin-bottom: 20px;
     }
 
     .prediction-label {
@@ -185,38 +160,38 @@
     }
 
     #result {
-      font-size: 27px;
+      font-size: 30px;
       font-weight: 750;
-      margin-top: 9px;
+      margin-top: 10px;
       overflow-wrap: anywhere;
     }
 
     #confidence {
       color: #8fa6d3;
       font-size: 14px;
-      margin-top: 7px;
+      margin-top: 8px;
     }
 
     .prob-title {
-      margin: 22px 0 13px;
+      margin: 20px 0 15px;
       font-size: 14px;
       font-weight: 650;
     }
 
     .prob-row {
-      margin-bottom: 15px;
+      margin-bottom: 17px;
     }
 
     .prob-info {
       display: flex;
       justify-content: space-between;
       font-size: 13px;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
       color: #c3cde0;
     }
 
     .bar {
-      height: 8px;
+      height: 9px;
       background: #26334b;
       border-radius: 20px;
       overflow: hidden;
@@ -224,33 +199,14 @@
 
     .bar-fill {
       height: 100%;
-      width: 0%;
       background: linear-gradient(90deg, #527cf5, #7b9cff);
       border-radius: 20px;
       transition: width 0.4s;
     }
 
-    .heatmap {
-      width: 100%;
-      min-height: 220px;
-      max-height: 420px;
-      object-fit: contain;
-      background: #080d19;
-      border-radius: 12px;
-      display: block;
-    }
-
-    .heat-placeholder {
-      min-height: 260px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+    .empty-probs {
       color: #64738e;
-      background: #080d19;
-      border-radius: 12px;
-      padding: 25px;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .footer {
@@ -261,7 +217,7 @@
     }
 
     @media (max-width: 750px) {
-      .main-grid {
+      .layout {
         grid-template-columns: 1fr;
       }
 
@@ -270,9 +226,9 @@
       }
 
       nav {
+        flex-direction: column;
         align-items: flex-start;
         gap: 15px;
-        flex-direction: column;
       }
 
       nav a {
@@ -299,72 +255,45 @@
     <p>Hand gesture recognition using deep learning</p>
   </div>
 
-  <div class="main-grid">
+  <div class="layout">
 
-    <!-- Camera and upload -->
+    <!-- Camera -->
     <div class="card">
-      <div class="card-title">Image Input</div>
+      <div class="card-title">Camera</div>
 
-      <div class="media-box">
+      <div class="camera-box">
         <video id="cam" autoplay playsinline muted></video>
-        <img id="preview" class="preview-img" hidden alt="Captured image">
-        <div id="placeholder" class="placeholder" hidden>
-          Camera preview will appear here.
+        <div id="cameraPlaceholder" class="camera-placeholder" hidden>
+          Camera unavailable. Please check browser permissions.
         </div>
       </div>
 
-      <div class="controls">
-        <button class="primary" id="snap">Take Photo</button>
-
-        <label class="upload-label" for="file">
-          Upload Image
-        </label>
-
-        <input type="file" id="file" accept="image/*" capture="user">
-
-        <button class="secondary" id="retake">Retake</button>
-      </div>
+      <button class="capture-btn" id="snap">
+        Take Photo
+      </button>
 
       <div class="status" id="status">
         Initializing camera...
       </div>
-
-      <button class="primary" id="predict" style="width:100%; margin-top:18px;">
-        Analyze Gesture
-      </button>
     </div>
 
-    <!-- Grad-CAM -->
+    <!-- Results -->
     <div class="card">
-      <div class="card-title">Model Attention</div>
+      <div class="card-title">Prediction Results</div>
 
-      <div id="heatPlaceholder" class="heat-placeholder">
-        Heatmap will appear after prediction.
+      <div class="prediction">
+        <div class="prediction-label">Predicted Gesture</div>
+        <div id="result">Waiting for image...</div>
+        <div id="confidence"></div>
       </div>
 
-      <img id="heat" class="heatmap" hidden alt="Grad-CAM heatmap">
+      <div class="prob-title">Class Probabilities</div>
 
-      <p class="status">
-        Grad-CAM visualization of the model's attention.
-      </p>
-    </div>
-
-  </div>
-
-  <!-- Results -->
-  <div class="card result-card">
-
-    <div class="card-title">Prediction Results</div>
-
-    <div class="prediction">
-      <div class="prediction-label">Predicted Gesture</div>
-      <div id="result">Waiting for image...</div>
-      <div id="confidence"></div>
-    </div>
-
-    <div class="prob-title">Class Probabilities</div>
-    <div id="probs">
-      <div class="status">Probabilities will appear here.</div>
+      <div id="probs">
+        <div class="empty-probs">
+          Take a photo to see prediction probabilities.
+        </div>
+      </div>
     </div>
 
   </div>
@@ -382,17 +311,14 @@ const MODEL = "{{ model }}";
 
 const video = document.getElementById("cam");
 const canvas = document.getElementById("canvas");
-const preview = document.getElementById("preview");
 
 const resultEl = document.getElementById("result");
 const confidenceEl = document.getElementById("confidence");
 const statusEl = document.getElementById("status");
+const snapBtn = document.getElementById("snap");
 
-const heat = document.getElementById("heat");
-const heatPlaceholder = document.getElementById("heatPlaceholder");
-
-let selectedImage = null;
 let stream = null;
+let processing = false;
 
 async function startCamera() {
   try {
@@ -403,99 +329,33 @@ async function startCamera() {
     video.srcObject = stream;
     await video.play();
 
-    statusEl.textContent = "Camera ready. Take a photo or upload an image.";
+    statusEl.textContent = "Camera ready. Take a photo to analyze.";
 
   } catch (e) {
-    statusEl.textContent = "Camera unavailable. You can upload an image instead.";
+    statusEl.textContent = "Camera error: " + e.message;
+    video.hidden = true;
+    document.getElementById("cameraPlaceholder").hidden = false;
   }
 }
 
-function setImage(src, w, h) {
-  const scale = Math.min(400 / w, 400 / h, 1);
+async function send(dataUrl) {
+  if (processing) return;
 
-  canvas.width = Math.round(w * scale);
-  canvas.height = Math.round(h * scale);
+  processing = true;
+  snapBtn.disabled = true;
+  snapBtn.textContent = "Analyzing...";
 
-  canvas.getContext("2d").drawImage(
-    src, 0, 0, canvas.width, canvas.height
-  );
-
-  selectedImage = canvas.toDataURL("image/jpeg", 0.85);
-
-  preview.src = selectedImage;
-  preview.hidden = false;
-  video.hidden = true;
-
-  statusEl.textContent = "Image ready. Click Analyze Gesture.";
-
-  resultEl.textContent = "Ready to analyze";
+  resultEl.textContent = "Processing...";
   confidenceEl.textContent = "";
-}
-
-document.getElementById("snap").onclick = () => {
-  if (!video.videoWidth) {
-    statusEl.textContent = "Camera is not ready.";
-    return;
-  }
-
-  setImage(video, video.videoWidth, video.videoHeight);
-};
-
-document.getElementById("file").onchange = e => {
-  const file = e.target.files[0];
-
-  if (!file) return;
-
-  const img = new Image();
-
-  img.onload = () => {
-    setImage(img, img.width, img.height);
-    URL.revokeObjectURL(img.src);
-  };
-
-  img.onerror = () => {
-    statusEl.textContent = "Could not load image.";
-  };
-
-  img.src = URL.createObjectURL(file);
-};
-
-document.getElementById("retake").onclick = () => {
-  selectedImage = null;
-
-  preview.hidden = true;
-  video.hidden = false;
-
-  resultEl.textContent = "Waiting for image...";
-  confidenceEl.textContent = "";
-
-  document.getElementById("probs").innerHTML =
-    '<div class="status">Probabilities will appear here.</div>';
-
-  heat.hidden = true;
-  heatPlaceholder.hidden = false;
-
-  statusEl.textContent = "Take a new photo or upload an image.";
-};
-
-document.getElementById("predict").onclick = async () => {
-  if (!selectedImage) {
-    statusEl.textContent = "Take a photo or upload an image first.";
-    return;
-  }
-
-  const button = document.getElementById("predict");
-
-  button.disabled = true;
-  button.textContent = "Analyzing...";
-  resultEl.textContent = "Processing image...";
-  confidenceEl.textContent = "";
+  statusEl.textContent = "Sending image to model...";
 
   try {
     const r = await fetch("/predict/" + MODEL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ image: selectedImage })
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ image: dataUrl })
     });
 
     const d = await r.json();
@@ -541,28 +401,46 @@ document.getElementById("predict").onclick = async () => {
       probsEl.appendChild(row);
     });
 
-    if (d.heatmap) {
-      heat.src = d.heatmap;
-      heat.hidden = false;
-      heatPlaceholder.hidden = true;
-    } else {
-      heat.hidden = true;
-      heatPlaceholder.hidden = false;
-    }
-
-    statusEl.textContent = "Analysis completed.";
+    statusEl.textContent = "Prediction completed successfully.";
 
   } catch (e) {
     resultEl.textContent = "Prediction failed";
     confidenceEl.textContent = e.message;
     statusEl.textContent = "Something went wrong.";
   } finally {
-    button.disabled = false;
-    button.textContent = "Analyze Gesture";
+    processing = false;
+    snapBtn.disabled = false;
+    snapBtn.textContent = "Take Photo";
   }
+}
+
+snapBtn.onclick = () => {
+  if (!video.videoWidth) {
+    statusEl.textContent = "Camera is not ready.";
+    return;
+  }
+
+  const maxWidth = 400;
+  const scale = Math.min(maxWidth / video.videoWidth, 1);
+
+  canvas.width = Math.round(video.videoWidth * scale);
+  canvas.height = Math.round(video.videoHeight * scale);
+
+  canvas.getContext("2d").drawImage(
+    video,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  const imageData = canvas.toDataURL("image/jpeg", 0.85);
+
+  send(imageData);
 };
 
 startCamera();
 </script>
+
 </body>
 </html>
