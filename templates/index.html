@@ -20,7 +20,7 @@
     }
 
     .container {
-      max-width: 1050px;
+      max-width: 1100px;
       margin: auto;
       padding: 30px 20px;
     }
@@ -69,7 +69,7 @@
 
     .layout {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.1fr 0.9fr;
       gap: 20px;
     }
 
@@ -209,6 +209,37 @@
       font-size: 13px;
     }
 
+    .heatmap {
+      width: 100%;
+      min-height: 220px;
+      max-height: 350px;
+      object-fit: contain;
+      background: #080d19;
+      border: 1px solid #29354c;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .heatmap-placeholder {
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64738e;
+      background: #080d19;
+      border-radius: 12px;
+      font-size: 13px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .heat-description {
+      color: #8e9bb5;
+      font-size: 12px;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
     .footer {
       text-align: center;
       color: #586783;
@@ -259,11 +290,13 @@
 
     <!-- Camera -->
     <div class="card">
-      <div class="card-title">Camera</div>
+      <div class="card-title">Camera Input</div>
 
       <div class="camera-box">
         <video id="cam" autoplay playsinline muted></video>
-        <div id="cameraPlaceholder" class="camera-placeholder" hidden>
+
+        <div id="cameraPlaceholder"
+             class="camera-placeholder" hidden>
           Camera unavailable. Please check browser permissions.
         </div>
       </div>
@@ -277,7 +310,7 @@
       </div>
     </div>
 
-    <!-- Results -->
+    <!-- Prediction Results -->
     <div class="card">
       <div class="card-title">Prediction Results</div>
 
@@ -293,6 +326,24 @@
         <div class="empty-probs">
           Take a photo to see prediction probabilities.
         </div>
+      </div>
+
+      <div class="prob-title">Grad-CAM Visualization</div>
+
+      <div id="heatPlaceholder" class="heatmap-placeholder">
+        Heatmap will appear after prediction.
+      </div>
+
+      <img
+        id="heat"
+        class="heatmap"
+        hidden
+        alt="Grad-CAM visualization"
+      >
+
+      <div class="heat-description">
+        Grad-CAM highlights the image regions that contributed
+        most to the model's prediction.
       </div>
     </div>
 
@@ -317,9 +368,14 @@ const confidenceEl = document.getElementById("confidence");
 const statusEl = document.getElementById("status");
 const snapBtn = document.getElementById("snap");
 
-let stream = null;
-let processing = false;
+const heat = document.getElementById("heat");
+const heatPlaceholder = document.getElementById("heatPlaceholder");
 
+let processing = false;
+let stream = null;
+
+
+// Camera initialization
 async function startCamera() {
   try {
     stream = await navigator.mediaDevices.getUserMedia({
@@ -333,15 +389,19 @@ async function startCamera() {
 
   } catch (e) {
     statusEl.textContent = "Camera error: " + e.message;
+
     video.hidden = true;
     document.getElementById("cameraPlaceholder").hidden = false;
   }
 }
 
+
+// Send image to backend
 async function send(dataUrl) {
   if (processing) return;
 
   processing = true;
+
   snapBtn.disabled = true;
   snapBtn.textContent = "Analyzing...";
 
@@ -364,12 +424,16 @@ async function send(dataUrl) {
       throw new Error(d.error || "Prediction failed");
     }
 
+    // Display prediction
     resultEl.textContent = d.label;
 
     confidenceEl.textContent =
       "Confidence: " + (d.confidence * 100).toFixed(1) + "%";
 
+
+    // Display class probabilities
     const probsEl = document.getElementById("probs");
+
     probsEl.innerHTML = "";
 
     Object.entries(d.probs).forEach(([label, value]) => {
@@ -397,9 +461,21 @@ async function send(dataUrl) {
       fill.style.width = percentage + "%";
 
       bar.appendChild(fill);
+
       row.append(info, bar);
       probsEl.appendChild(row);
     });
+
+
+    // Display Grad-CAM heatmap
+    if (d.heatmap) {
+      heat.src = d.heatmap;
+      heat.hidden = false;
+      heatPlaceholder.hidden = true;
+    } else {
+      heat.hidden = true;
+      heatPlaceholder.hidden = false;
+    }
 
     statusEl.textContent = "Prediction completed successfully.";
 
@@ -407,13 +483,17 @@ async function send(dataUrl) {
     resultEl.textContent = "Prediction failed";
     confidenceEl.textContent = e.message;
     statusEl.textContent = "Something went wrong.";
+
   } finally {
     processing = false;
+
     snapBtn.disabled = false;
     snapBtn.textContent = "Take Photo";
   }
 }
 
+
+// Capture a single frame and predict immediately
 snapBtn.onclick = () => {
   if (!video.videoWidth) {
     statusEl.textContent = "Camera is not ready.";
@@ -439,6 +519,8 @@ snapBtn.onclick = () => {
   send(imageData);
 };
 
+
+// Start
 startCamera();
 </script>
 
