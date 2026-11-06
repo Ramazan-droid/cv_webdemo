@@ -1,493 +1,568 @@
-```html
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-    <style>
-        :root {
-            --bg: #090d18;
-            --surface: #111827;
-            --surface-light: #182235;
-            --border: rgba(255,255,255,0.08);
-            --text: #f1f5f9;
-            --muted: #8491a7;
-            --accent: #8b7cff;
-            --accent-light: #a99cff;
-            --green: #40d6a0;
-        }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Segoe UI, sans-serif;
+      background: #0b1020;
+      color: #e8edf7;
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 20px;
+    }
 
-        body {
-            min-height: 100vh;
-            background:
-                radial-gradient(ellipse at 15% 0%, rgba(105,85,220,0.13), transparent 40%),
-                var(--bg);
-            color: var(--text);
-            font-family: 'DM Sans', sans-serif;
-            padding: 32px 20px;
-        }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 35px;
+    }
 
-        .container {
-            max-width: 1150px;
-            margin: auto;
-        }
+    .brand {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
 
-        /* Header */
+    nav a {
+      text-decoration: none;
+      color: #9caac5;
+      padding: 9px 15px;
+      border-radius: 9px;
+      margin-left: 5px;
+      transition: 0.2s;
+    }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 42px;
-            flex-wrap: wrap;
-        }
+    nav a:hover {
+      background: #202b45;
+      color: white;
+    }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    .active {
+      background: #263c68;
+      color: #fff;
+    }
 
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 13px;
-            background: linear-gradient(135deg, #8b7cff, #5544bd);
-            display: grid;
-            place-items: center;
-            font-size: 21px;
-            box-shadow: 0 5px 25px rgba(139,124,255,0.25);
-        }
+    .header {
+      margin-bottom: 28px;
+    }
 
-        .brand-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: 19px;
-        }
+    .header h1 {
+      font-size: 30px;
+      margin: 0 0 8px;
+    }
 
-        .brand-subtitle {
-            color: var(--muted);
-            font-size: 11px;
-            margin-top: 3px;
-        }
+    .header p {
+      color: #8e9bb5;
+      margin: 0;
+      font-size: 14px;
+    }
 
-        nav {
-            display: flex;
-            gap: 8px;
-            background: var(--surface);
-            padding: 5px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-        }
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+    }
 
-        nav a {
-            text-decoration: none;
-            color: var(--muted);
-            padding: 9px 17px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            transition: 0.2s;
-        }
+    .card {
+      background: #151d31;
+      border: 1px solid #27334c;
+      border-radius: 17px;
+      padding: 20px;
+      min-width: 0;
+    }
 
-        nav a:hover {
-            color: white;
-            background: var(--surface-light);
-        }
+    .card-title {
+      font-size: 16px;
+      font-weight: 650;
+      margin-bottom: 16px;
+    }
 
-        nav a.active {
-            color: white;
-            background: #6857d8;
-        }
+    .media-box {
+      background: #080d19;
+      border: 1px solid #29354c;
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        /* Page heading */
+    video, .preview-img {
+      display: block;
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+    }
 
-        .page-heading {
-            margin-bottom: 28px;
-        }
+    .placeholder {
+      color: #64738e;
+      text-align: center;
+      padding: 30px;
+      font-size: 14px;
+    }
 
-        .eyebrow {
-            color: var(--accent-light);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 17px;
+    }
 
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(27px, 5vw, 38px);
-            letter-spacing: -1.3px;
-            margin-bottom: 9px;
-        }
+    button, .upload-label {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 17px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
 
-        .description {
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.6;
-        }
+    button:hover, .upload-label:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.12);
+    }
 
-        /* Main grid */
+    .primary {
+      background: #527cf5;
+      color: white;
+    }
 
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-        }
+    .secondary {
+      background: #263550;
+      color: #dce6ff;
+    }
 
-        .card {
-            background: linear-gradient(145deg, #131d2e, #101827);
-            border: 1px solid var(--border);
-            border-radius: 17px;
-            overflow: hidden;
-        }
+    .upload-label {
+      background: #263550;
+      color: #dce6ff;
+      display: inline-flex;
+      align-items: center;
+    }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 19px 20px;
-            border-bottom: 1px solid var(--border);
-        }
+    input[type="file"] {
+      display: none;
+    }
 
-        .card-title {
-            font-weight: 700;
-            font-size: 14px;
-        }
+    .status {
+      color: #8e9bb5;
+      font-size: 13px;
+      margin-top: 13px;
+    }
 
-        .card-subtitle {
-            color: var(--muted);
-            font-size: 11px;
-            margin-top: 4px;
-        }
+    .result-card {
+      margin-top: 20px;
+    }
 
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            color: var(--green);
-            font-size: 11px;
-            font-weight: 600;
-        }
+    .prediction {
+      background: #0d172a;
+      border: 1px solid #2c4168;
+      border-radius: 12px;
+      padding: 20px;
+    }
 
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            background: var(--green);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--green);
-        }
+    .prediction-label {
+      font-size: 12px;
+      color: #91a4c7;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-        .media-wrapper {
-            padding: 14px;
-        }
+    #result {
+      font-size: 27px;
+      font-weight: 750;
+      margin-top: 9px;
+      overflow-wrap: anywhere;
+    }
 
-        video, #heat {
-            width: 100%;
-            height: 320px;
-            display: block;
-            object-fit: contain;
-            background: #080d17;
-            border-radius: 11px;
-        }
+    #confidence {
+      color: #8fa6d3;
+      font-size: 14px;
+      margin-top: 7px;
+    }
 
-        /* Prediction */
+    .prob-title {
+      margin: 22px 0 13px;
+      font-size: 14px;
+      font-weight: 650;
+    }
 
-        .prediction-card {
-            margin-top: 18px;
-            padding: 23px;
-        }
+    .prob-row {
+      margin-bottom: 15px;
+    }
 
-        .prediction-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 22px;
-            flex-wrap: wrap;
-        }
+    .prob-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 7px;
+      color: #c3cde0;
+    }
 
-        .prediction-label {
-            color: var(--muted);
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
+    .bar {
+      height: 8px;
+      background: #26334b;
+      border-radius: 20px;
+      overflow: hidden;
+    }
 
-        #result {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 29px;
-            font-weight: 700;
-            letter-spacing: -0.7px;
-        }
+    .bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #527cf5, #7b9cff);
+      border-radius: 20px;
+      transition: width 0.4s;
+    }
 
-        .confidence-badge {
-            background: rgba(64,214,160,0.1);
-            border: 1px solid rgba(64,214,160,0.2);
-            color: var(--green);
-            padding: 9px 13px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 700;
-        }
+    .heatmap {
+      width: 100%;
+      min-height: 220px;
+      max-height: 420px;
+      object-fit: contain;
+      background: #080d19;
+      border-radius: 12px;
+      display: block;
+    }
 
-        .section-divider {
-            height: 1px;
-            background: var(--border);
-            margin: 19px 0;
-        }
+    .heat-placeholder {
+      min-height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #64738e;
+      background: #080d19;
+      border-radius: 12px;
+      padding: 25px;
+      font-size: 14px;
+    }
 
-        .probability-heading {
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 17px;
-        }
+    .footer {
+      text-align: center;
+      color: #586783;
+      font-size: 12px;
+      margin-top: 35px;
+    }
 
-        #probs {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13px;
-            color: var(--muted);
-            white-space: pre-wrap;
-            line-height: 1.9;
-            background: transparent;
-            border: none;
-            padding: 0;
-        }
+    @media (max-width: 750px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
 
-        /* Footer */
+      .header h1 {
+        font-size: 24px;
+      }
 
-        footer {
-            margin-top: 28px;
-            padding: 17px 0;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            color: var(--muted);
-            font-size: 11px;
-        }
+      nav {
+        align-items: flex-start;
+        gap: 15px;
+        flex-direction: column;
+      }
 
-        @media (max-width: 700px) {
-            body {
-                padding: 20px 13px;
-            }
-
-            header {
-                margin-bottom: 30px;
-            }
-
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-
-            video, #heat {
-                height: 260px;
-            }
-
-            .prediction-card {
-                padding: 18px;
-            }
-        }
-    </style>
+      nav a {
+        margin-left: 0;
+        margin-right: 5px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 <div class="container">
 
-    <header>
-        <div class="brand">
-            <div class="brand-icon">✦</div>
-            <div>
-                <div class="brand-name">GestureAI</div>
-                <div class="brand-subtitle">Computer Vision Lab</div>
-            </div>
+  <nav>
+    <div class="brand">GESTURE AI</div>
+    <div>
+      <a href="/baseline">Baseline</a>
+      <a href="/sota">SOTA</a>
+    </div>
+  </nav>
+
+  <div class="header">
+    <h1>{{ title }}</h1>
+    <p>Hand gesture recognition using deep learning</p>
+  </div>
+
+  <div class="main-grid">
+
+    <!-- Camera and upload -->
+    <div class="card">
+      <div class="card-title">Image Input</div>
+
+      <div class="media-box">
+        <video id="cam" autoplay playsinline muted></video>
+        <img id="preview" class="preview-img" hidden alt="Captured image">
+        <div id="placeholder" class="placeholder" hidden>
+          Camera preview will appear here.
         </div>
+      </div>
 
-        <nav>
-            <a href="/baseline" {% if model == "baseline" %}class="active"{% endif %}>
-                Baseline
-            </a>
-            <a href="/sota" {% if model == "sota" %}class="active"{% endif %}>
-                SOTA
-            </a>
-        </nav>
-    </header>
+      <div class="controls">
+        <button class="primary" id="snap">Take Photo</button>
 
-    <section class="page-heading">
-        <div class="eyebrow">AI MODEL DEMONSTRATION</div>
-        <h1>{{ title }}</h1>
-        <p class="description">
-            Real-time hand gesture recognition powered by deep learning.
-            Explore model predictions and their visual explanations.
-        </p>
-    </section>
+        <label class="upload-label" for="file">
+          Upload Image
+        </label>
 
-    <section class="main-grid">
+        <input type="file" id="file" accept="image/*" capture="user">
 
-        <div class="card">
-            <div class="card-header">
-                <div>
-                    <div class="card-title">Live Camera</div>
-                    <div class="card-subtitle">Real-time input stream</div>
-                </div>
+        <button class="secondary" id="retake">Retake</button>
+      </div>
 
-                <div class="status">
-                    <span class="status-dot"></span>
-                    LIVE
-                </div>
-            </div>
+      <div class="status" id="status">
+        Initializing camera...
+      </div>
 
-            <div class="media-wrapper">
-                <video id="cam" autoplay playsinline muted></video>
-            </div>
-        </div>
+      <button class="primary" id="predict" style="width:100%; margin-top:18px;">
+        Analyze Gesture
+      </button>
+    </div>
 
-        <div class="card">
-            <div class="card-header">
-                <div>
-                    <div class="card-title">Visualization</div>
-                    <div class="card-subtitle">Model activation heatmap</div>
-                </div>
+    <!-- Grad-CAM -->
+    <div class="card">
+      <div class="card-title">Model Attention</div>
 
-                <div class="status">
-                    EXPLANATION
-                </div>
-            </div>
+      <div id="heatPlaceholder" class="heat-placeholder">
+        Heatmap will appear after prediction.
+      </div>
 
-            <div class="media-wrapper">
-                <img id="heat" alt="Grad-CAM heatmap">
-            </div>
-        </div>
+      <img id="heat" class="heatmap" hidden alt="Grad-CAM heatmap">
 
-    </section>
+      <p class="status">
+        Grad-CAM visualization of the model's attention.
+      </p>
+    </div>
 
-    <section class="card prediction-card">
+  </div>
 
-        <div class="prediction-top">
-            <div>
-                <div class="prediction-label">CURRENT PREDICTION</div>
-                <div id="result">Waiting for camera...</div>
-            </div>
+  <!-- Results -->
+  <div class="card result-card">
 
-            <div class="confidence-badge" id="confidence">
-                -- %
-            </div>
-        </div>
+    <div class="card-title">Prediction Results</div>
 
-        <div class="section-divider"></div>
+    <div class="prediction">
+      <div class="prediction-label">Predicted Gesture</div>
+      <div id="result">Waiting for image...</div>
+      <div id="confidence"></div>
+    </div>
 
-        <div class="probability-heading">
-            Class Probabilities
-        </div>
+    <div class="prob-title">Class Probabilities</div>
+    <div id="probs">
+      <div class="status">Probabilities will appear here.</div>
+    </div>
 
-        <pre id="probs">Waiting for model response...</pre>
+  </div>
 
-    </section>
-
-    <footer>
-        <span>GestureAI · Deep Learning Demonstration</span>
-        <span>PyTorch · ResNet18 · Grad-CAM</span>
-    </footer>
-
-    <canvas id="canvas" hidden></canvas>
+  <div class="footer">
+    Gesture AI · Deep Learning Classification Demo
+  </div>
 
 </div>
+
+<canvas id="canvas" hidden></canvas>
 
 <script>
 const MODEL = "{{ model }}";
 
 const video = document.getElementById("cam");
 const canvas = document.getElementById("canvas");
-const result = document.getElementById("result");
-const confidence = document.getElementById("confidence");
-const probs = document.getElementById("probs");
+const preview = document.getElementById("preview");
+
+const resultEl = document.getElementById("result");
+const confidenceEl = document.getElementById("confidence");
+const statusEl = document.getElementById("status");
+
 const heat = document.getElementById("heat");
+const heatPlaceholder = document.getElementById("heatPlaceholder");
 
-let running = true;
+let selectedImage = null;
+let stream = null;
 
-navigator.mediaDevices.getUserMedia({
-    video: { facingMode: "user" }
-})
-.then(stream => {
+async function startCamera() {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "user" }
+    });
+
     video.srcObject = stream;
-    video.onloadedmetadata = () => loop();
-})
-.catch(e => {
-    result.textContent = "Camera unavailable";
-    probs.textContent = e.message;
-});
+    await video.play();
 
-async function loop() {
+    statusEl.textContent = "Camera ready. Take a photo or upload an image.";
 
-    if (!running) return;
+  } catch (e) {
+    statusEl.textContent = "Camera unavailable. You can upload an image instead.";
+  }
+}
 
-    if (video.videoWidth) {
+function setImage(src, w, h) {
+  const scale = Math.min(400 / w, 400 / h, 1);
 
-        canvas.width = 224;
-        canvas.height = 224;
+  canvas.width = Math.round(w * scale);
+  canvas.height = Math.round(h * scale);
 
-        canvas.getContext("2d").drawImage(
-            video, 0, 0, canvas.width, canvas.height
-        );
+  canvas.getContext("2d").drawImage(
+    src, 0, 0, canvas.width, canvas.height
+  );
 
-        try {
+  selectedImage = canvas.toDataURL("image/jpeg", 0.85);
 
-            const r = await fetch("/predict/" + MODEL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    image: canvas.toDataURL("image/jpeg", 0.6)
-                })
-            });
+  preview.src = selectedImage;
+  preview.hidden = false;
+  video.hidden = true;
 
-            if (!r.ok) {
-                throw new Error("Prediction request failed: " + r.status);
-            }
+  statusEl.textContent = "Image ready. Click Analyze Gesture.";
 
-            const d = await r.json();
+  resultEl.textContent = "Ready to analyze";
+  confidenceEl.textContent = "";
+}
 
-            result.textContent = d.label;
+document.getElementById("snap").onclick = () => {
+  if (!video.videoWidth) {
+    statusEl.textContent = "Camera is not ready.";
+    return;
+  }
 
-            const percent = (d.confidence * 100).toFixed(1);
+  setImage(video, video.videoWidth, video.videoHeight);
+};
 
-            confidence.textContent = percent + "% confidence";
+document.getElementById("file").onchange = e => {
+  const file = e.target.files[0];
 
-            probs.textContent = Object.entries(d.probs)
-                .map(([k, v]) =>
-                    k + ": " + (v * 100).toFixed(1) + "%"
-                )
-                .join("\n");
+  if (!file) return;
 
-            if (d.heatmap) {
-                heat.src = d.heatmap;
-            }
+  const img = new Image();
 
-        } catch (e) {
-            console.error(e);
-        }
+  img.onload = () => {
+    setImage(img, img.width, img.height);
+    URL.revokeObjectURL(img.src);
+  };
+
+  img.onerror = () => {
+    statusEl.textContent = "Could not load image.";
+  };
+
+  img.src = URL.createObjectURL(file);
+};
+
+document.getElementById("retake").onclick = () => {
+  selectedImage = null;
+
+  preview.hidden = true;
+  video.hidden = false;
+
+  resultEl.textContent = "Waiting for image...";
+  confidenceEl.textContent = "";
+
+  document.getElementById("probs").innerHTML =
+    '<div class="status">Probabilities will appear here.</div>';
+
+  heat.hidden = true;
+  heatPlaceholder.hidden = false;
+
+  statusEl.textContent = "Take a new photo or upload an image.";
+};
+
+document.getElementById("predict").onclick = async () => {
+  if (!selectedImage) {
+    statusEl.textContent = "Take a photo or upload an image first.";
+    return;
+  }
+
+  const button = document.getElementById("predict");
+
+  button.disabled = true;
+  button.textContent = "Analyzing...";
+  resultEl.textContent = "Processing image...";
+  confidenceEl.textContent = "";
+
+  try {
+    const r = await fetch("/predict/" + MODEL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image: selectedImage })
+    });
+
+    const d = await r.json();
+
+    if (!r.ok || d.error) {
+      throw new Error(d.error || "Prediction failed");
     }
 
-    // Wait for the previous request before capturing another frame.
-    setTimeout(loop, 500);
-}
-</script>
+    resultEl.textContent = d.label;
 
+    confidenceEl.textContent =
+      "Confidence: " + (d.confidence * 100).toFixed(1) + "%";
+
+    const probsEl = document.getElementById("probs");
+    probsEl.innerHTML = "";
+
+    Object.entries(d.probs).forEach(([label, value]) => {
+      const percentage = value * 100;
+
+      const row = document.createElement("div");
+      row.className = "prob-row";
+
+      const info = document.createElement("div");
+      info.className = "prob-info";
+
+      const name = document.createElement("span");
+      name.textContent = label;
+
+      const score = document.createElement("span");
+      score.textContent = percentage.toFixed(1) + "%";
+
+      info.append(name, score);
+
+      const bar = document.createElement("div");
+      bar.className = "bar";
+
+      const fill = document.createElement("div");
+      fill.className = "bar-fill";
+      fill.style.width = percentage + "%";
+
+      bar.appendChild(fill);
+      row.append(info, bar);
+      probsEl.appendChild(row);
+    });
+
+    if (d.heatmap) {
+      heat.src = d.heatmap;
+      heat.hidden = false;
+      heatPlaceholder.hidden = true;
+    } else {
+      heat.hidden = true;
+      heatPlaceholder.hidden = false;
+    }
+
+    statusEl.textContent = "Analysis completed.";
+
+  } catch (e) {
+    resultEl.textContent = "Prediction failed";
+    confidenceEl.textContent = e.message;
+    statusEl.textContent = "Something went wrong.";
+  } finally {
+    button.disabled = false;
+    button.textContent = "Analyze Gesture";
+  }
+};
+
+startCamera();
+</script>
 </body>
 </html>
-```
